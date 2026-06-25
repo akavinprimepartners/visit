@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visiting Card Scanner & Organizer</title>
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- SheetJS for Excel export (XLSX) -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CardScan · Organizer</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- SheetJS for Excel -->
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <style>
+        /* --- reset & layout --- */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -38,9 +39,7 @@
             gap: 12px;
             margin-bottom: 10px;
         }
-        h1 i {
-            color: #2a7de1;
-        }
+        h1 i { color: #2a7de1; }
         .subhead {
             color: #4a5b6e;
             margin-bottom: 28px;
@@ -97,9 +96,7 @@
             height: 100%;
             object-fit: contain;
         }
-        .upload-card input[type="file"] {
-            display: none;
-        }
+        .upload-card input[type="file"] { display: none; }
         .upload-btn {
             background: #eef3fa;
             border: none;
@@ -111,34 +108,7 @@
             transition: 0.15s;
             font-size: 13px;
         }
-        .upload-btn:hover {
-            background: #dce4ef;
-        }
-        .card-preview-area {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: flex-start;
-            gap: 15px;
-            margin: 18px 0 12px;
-        }
-        .card-preview-area .mini-preview {
-            width: 80px;
-            height: 60px;
-            background: #d9e2ef;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            color: #1f2a3f;
-            border: 1px solid #cbd5e3;
-            overflow: hidden;
-        }
-        .card-preview-area .mini-preview img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .upload-btn:hover { background: #dce4ef; }
         .tag-section {
             display: flex;
             flex-wrap: wrap;
@@ -182,9 +152,7 @@
             font-size: 14px;
             white-space: nowrap;
         }
-        .tag-input-group button:hover {
-            background: #1b62b5;
-        }
+        .tag-input-group button:hover { background: #1b62b5; }
         .tags-container {
             display: flex;
             flex-wrap: wrap;
@@ -207,9 +175,7 @@
             font-size: 12px;
             transition: 0.1s;
         }
-        .tag-badge i:hover {
-            color: #c13e3e;
-        }
+        .tag-badge i:hover { color: #c13e3e; }
         .editable-fields {
             background: white;
             padding: 20px 22px;
@@ -286,30 +252,22 @@
             background: #1f3a5f;
             color: white;
         }
-        .btn-primary:hover {
-            background: #122b47;
-        }
+        .btn-primary:hover { background: #122b47; }
         .btn-success {
             background: #1f8b4c;
             color: white;
         }
-        .btn-success:hover {
-            background: #15723d;
-        }
+        .btn-success:hover { background: #15723d; }
         .btn-outline {
             background: transparent;
             border: 1px solid #c8d4e5;
         }
-        .btn-outline:hover {
-            background: #eef3fa;
-        }
+        .btn-outline:hover { background: #eef3fa; }
         .btn-danger {
             background: #d45a5a;
             color: white;
         }
-        .btn-danger:hover {
-            background: #b84141;
-        }
+        .btn-danger:hover { background: #b84141; }
         .table-wrap {
             overflow-x: auto;
             margin-top: 18px;
@@ -370,21 +328,21 @@
 <div class="container">
     <h1><i class="fas fa-id-card"></i> CardScan · Organizer</h1>
     <div class="subhead">
-        <i class="fas fa-tags" style="margin-right: 10px;"></i> Upload front & back · Add tags · Edit fields · Export to Excel (Google Drive ready)
+        <i class="fas fa-tags" style="margin-right: 10px;"></i> Upload front & back · Add tags · Edit fields · <strong>Export to GitHub (Excel)</strong>
     </div>
 
-    <!-- scanner / upload area -->
-    <div class="scan-grid" id="scanGrid">
+    <!-- Upload area -->
+    <div class="scan-grid">
         <div class="upload-card">
             <label><i class="fas fa-camera"></i> Front</label>
             <div class="preview" id="frontPreview"><i class="fas fa-image" style="opacity:0.4;"></i></div>
-            <input type="file" id="frontInput" accept="image/*">
+            <input type="file" id="frontInput" accept="image/*" />
             <button class="upload-btn" onclick="document.getElementById('frontInput').click()"><i class="fas fa-upload"></i> Upload front</button>
         </div>
         <div class="upload-card">
             <label><i class="fas fa-camera-retro"></i> Back</label>
             <div class="preview" id="backPreview"><i class="fas fa-image" style="opacity:0.4;"></i></div>
-            <input type="file" id="backInput" accept="image/*">
+            <input type="file" id="backInput" accept="image/*" />
             <button class="upload-btn" onclick="document.getElementById('backInput').click()"><i class="fas fa-upload"></i> Upload back</button>
         </div>
         <div style="flex:1; min-width:180px;">
@@ -396,11 +354,11 @@
         </div>
     </div>
 
-    <!-- tag section -->
+    <!-- Tags -->
     <div class="tag-section">
         <label><i class="fas fa-tag"></i> Tags</label>
         <div class="tag-input-group">
-            <input type="text" id="tagInput" placeholder="e.g. conference, VIP, sales" value="business">
+            <input type="text" id="tagInput" placeholder="e.g. conference, VIP, sales" value="business" />
             <button id="addTagBtn"><i class="fas fa-plus"></i> Add</button>
         </div>
         <button class="btn btn-outline" id="clearTagsBtn" style="padding:6px 16px;"><i class="fas fa-undo-alt"></i> Reset</button>
@@ -409,37 +367,41 @@
         <span class="tag-badge">business <i class="fas fa-times" data-tag="business"></i></span>
     </div>
 
-    <!-- editable fields -->
+    <!-- Editable fields -->
     <div class="editable-fields">
-        <div style="display: flex; gap: 6px; align-items: center; margin-bottom: 10px;"><i class="fas fa-pen" style="color:#2a7de1;"></i> <span style="font-weight:500;">Edit card data</span> <span style="color:#6b7a8f; font-size:13px; margin-left:6px;">(fields are editable before storing)</span></div>
-        <div class="field-row">
-            <div class="field-group"><label>Full name</label><input id="fieldName" value="John Doe" placeholder="Name"></div>
-            <div class="field-group"><label>Company</label><input id="fieldCompany" value="Acme Inc." placeholder="Company"></div>
-            <div class="field-group"><label>Email</label><input id="fieldEmail" value="john@acme.com" placeholder="Email"></div>
+        <div style="display: flex; gap: 6px; align-items: center; margin-bottom: 10px;">
+            <i class="fas fa-pen" style="color:#2a7de1;"></i>
+            <span style="font-weight:500;">Edit card data</span>
+            <span style="color:#6b7a8f; font-size:13px; margin-left:6px;">(fields are editable before storing)</span>
         </div>
         <div class="field-row">
-            <div class="field-group"><label>Phone</label><input id="fieldPhone" value="+1 234 567 890" placeholder="Phone"></div>
-            <div class="field-group"><label>Title</label><input id="fieldTitle" value="Sales Director" placeholder="Title"></div>
-            <div class="field-group"><label>Website</label><input id="fieldWebsite" value="acme.com" placeholder="Website"></div>
+            <div class="field-group"><label>Full name</label><input id="fieldName" value="John Doe" placeholder="Name" /></div>
+            <div class="field-group"><label>Company</label><input id="fieldCompany" value="Acme Inc." placeholder="Company" /></div>
+            <div class="field-group"><label>Email</label><input id="fieldEmail" value="john@acme.com" placeholder="Email" /></div>
+        </div>
+        <div class="field-row">
+            <div class="field-group"><label>Phone</label><input id="fieldPhone" value="+1 234 567 890" placeholder="Phone" /></div>
+            <div class="field-group"><label>Title</label><input id="fieldTitle" value="Sales Director" placeholder="Title" /></div>
+            <div class="field-group"><label>Website</label><input id="fieldWebsite" value="acme.com" placeholder="Website" /></div>
         </div>
         <div class="field-row">
             <div class="field-group"><label>Address</label><textarea id="fieldAddress" rows="1" placeholder="Address">123 Business St.</textarea></div>
         </div>
     </div>
 
-    <!-- actions -->
+    <!-- Actions -->
     <div class="action-bar">
         <div class="left">
             <button class="btn btn-primary" id="storeBtn"><i class="fas fa-save"></i> Store card</button>
             <button class="btn btn-outline" id="clearFieldsBtn"><i class="fas fa-broom"></i> Clear fields</button>
         </div>
         <div>
-            <button class="btn btn-success" id="exportExcelBtn"><i class="fas fa-file-excel"></i> Export to Excel (XLSX)</button>
-            <span class="excel-hint"><i class="fas fa-cloud"></i> Google Drive ready</span>
+            <button class="btn btn-success" id="exportExcelBtn"><i class="fas fa-file-excel"></i> Export to GitHub</button>
+            <span class="excel-hint"><i class="fas fa-code-branch"></i> commits to repo</span>
         </div>
     </div>
 
-    <!-- table / stored cards -->
+    <!-- Stored cards table -->
     <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
         <span style="font-weight:500; color:#1f2a3f;"><i class="fas fa-list-ul"></i> Stored cards</span>
         <button class="btn btn-danger" id="clearAllBtn" style="padding:4px 14px; font-size:12px;"><i class="fas fa-trash"></i> Clear all</button>
@@ -453,14 +415,17 @@
         </table>
     </div>
 </div>
+
 <script>
     (function() {
-        // ----- state -----
-        let cards = [];               // each: { id, name, company, email, phone, title, website, address, tags, frontImg, backImg }
+        // ---- state ----
+        let cards = [];
         let nextId = 1;
-
-        // current tags for new card
         let currentTags = new Set(['business']);
+
+        // image data
+        let frontImageData = null;
+        let backImageData = null;
 
         // DOM refs
         const frontInput = document.getElementById('frontInput');
@@ -485,11 +450,7 @@
         const tableBody = document.getElementById('tableBody');
         const cardCounter = document.getElementById('cardCounter');
 
-        // image data (base64) for front/back
-        let frontImageData = null;
-        let backImageData = null;
-
-        // ----- helper: render tags UI -----
+        // ---- helper: render tags ----
         function renderTags() {
             tagsContainer.innerHTML = '';
             if (currentTags.size === 0) {
@@ -504,33 +465,29 @@
                 const badge = document.createElement('span');
                 badge.className = 'tag-badge';
                 badge.innerHTML = `${tag} <i class="fas fa-times" data-tag="${tag}"></i>`;
-                const removeIcon = badge.querySelector('i');
-                removeIcon.addEventListener('click', function(e) {
-                    const t = this.dataset.tag;
-                    currentTags.delete(t);
+                badge.querySelector('i').addEventListener('click', function(e) {
+                    currentTags.delete(this.dataset.tag);
                     renderTags();
                 });
                 tagsContainer.appendChild(badge);
             });
         }
 
-        // ----- add tag -----
+        // ---- add tag ----
         function addTagFromInput() {
             const raw = tagInput.value.trim();
             if (!raw) return;
-            const tags = raw.split(',').map(s => s.trim()).filter(s => s.length > 0);
-            tags.forEach(t => currentTags.add(t));
+            raw.split(',').map(s => s.trim()).filter(s => s.length > 0).forEach(t => currentTags.add(t));
             tagInput.value = '';
             renderTags();
         }
 
-        // ----- reset tags to default -----
         function resetTags() {
             currentTags = new Set(['business']);
             renderTags();
         }
 
-        // ----- preview image -----
+        // ---- image preview ----
         function handleFileInput(input, previewEl, setDataFn) {
             const file = input.files[0];
             if (!file) return;
@@ -550,7 +507,7 @@
             handleFileInput(this, backPreview, (data) => { backImageData = data; });
         });
 
-        // ----- clear fields (except images) -----
+        // ---- clear fields ----
         function clearFields() {
             fieldName.value = '';
             fieldCompany.value = '';
@@ -559,10 +516,9 @@
             fieldTitle.value = '';
             fieldWebsite.value = '';
             fieldAddress.value = '';
-            // do not clear images or tags
         }
 
-        // ----- store card -----
+        // ---- store card ----
         function storeCard() {
             const name = fieldName.value.trim() || 'Unnamed';
             const company = fieldCompany.value.trim() || '';
@@ -572,10 +528,9 @@
             const website = fieldWebsite.value.trim() || '';
             const address = fieldAddress.value.trim() || '';
             const tags = Array.from(currentTags);
-            // if no tags, add 'uncategorized'
             if (tags.length === 0) tags.push('uncategorized');
 
-            const card = {
+            cards.push({
                 id: nextId++,
                 name,
                 company,
@@ -584,22 +539,15 @@
                 title,
                 website,
                 address,
-                tags: tags,
+                tags,
                 frontImg: frontImageData || null,
                 backImg: backImageData || null,
-            };
-            cards.push(card);
+            });
             renderTable();
             updateCounter();
-
-            // optionally clear images after store? we keep them for convenience
-            // but we reset preview? we keep as is.
-            // clear fields optional: we keep to allow editing same card
-            // reset front/back? we keep them. 
-            // but if user wants new card, they can re-upload.
         }
 
-        // ----- render table -----
+        // ---- render table ----
         function renderTable() {
             if (cards.length === 0) {
                 tableBody.innerHTML = `<tr><td colspan="7" class="empty-state">No cards stored. Upload & store your first card.</td></tr>`;
@@ -627,76 +575,96 @@
             cardCounter.textContent = cards.length;
         }
 
-        // ----- export to Excel (XLSX) -----
-        // Replace the exportExcel function with this:
-function exportExcel() {
-    if (cards.length === 0) {
-        alert('No cards to export. Store at least one card.');
-        return;
-    }
+        // ---- EXPORT TO GITHUB (Excel) ----
+        async function exportToGitHub() {
+            if (cards.length === 0) {
+                alert('No cards to export. Store at least one card.');
+                return;
+            }
 
-    // 1. Prepare the data
-    const data = cards.map(c => ({
-        'Name': c.name,
-        'Company': c.company,
-        'Email': c.email,
-        'Phone': c.phone,
-        'Title': c.title,
-        'Website': c.website,
-        'Address': c.address,
-        'Tags': c.tags.join(', '),
-        'Front Image': c.frontImg ? 'yes' : 'no',
-        'Back Image': c.backImg ? 'yes' : 'no',
-    }));
+            // 1. Build Excel data
+            const data = cards.map(c => ({
+                'Name': c.name,
+                'Company': c.company,
+                'Email': c.email,
+                'Phone': c.phone,
+                'Title': c.title,
+                'Website': c.website,
+                'Address': c.address,
+                'Tags': c.tags.join(', '),
+                'Front Image': c.frontImg ? 'yes' : 'no',
+                'Back Image': c.backImg ? 'yes' : 'no',
+            }));
 
-    // 2. Create Excel file as Blob
-    const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.json_to_sheet(data);
-    XLSX.utils.book_append_sheet(wb, ws, 'Cards');
-    const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-    const blob = new Blob([wbout], { type: 'application/octet-stream' });
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.json_to_sheet(data);
+            XLSX.utils.book_append_sheet(wb, ws, 'Cards');
+            const wbArray = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
 
-    // 3. ---- GOOGLE DRIVE UPLOAD ----
-    // 🔴 REPLACE THIS WITH YOUR FOLDER ID
-    const FOLDER_ID = '1ABCdefGHIjklMNOpqrsTUVwxyz'; // <-- PASTE YOUR FOLDER ID HERE
+            // 2. Convert to base64
+            let binary = '';
+            const bytes = new Uint8Array(wbArray);
+            for (let i = 0; i < bytes.length; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
+            const base64Content = btoa(binary);
 
-    // You need a valid OAuth token. This is a simplified example.
-    // In production, use gapi.client or OAuth2 flow.
-    const accessToken = prompt('Please enter your Google Drive Access Token (see instructions below):');
-    if (!accessToken) return;
+            // 3. Get GitHub credentials from user
+            const token = prompt('Enter your GitHub Personal Access Token (with repo scope):');
+            if (!token) return;
+            const owner = prompt('Repository owner (username or organization):');
+            if (!owner) return;
+            const repo = prompt('Repository name:');
+            if (!repo) return;
+            const filePath = prompt('File path (e.g., data/cards.xlsx):', 'visiting_cards.xlsx');
+            if (!filePath) return;
 
-    const metadata = {
-        name: 'visiting_cards.xlsx',
-        parents: [FOLDER_ID],
-        mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    };
+            const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
 
-    const form = new FormData();
-    form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
-    form.append('file', blob);
+            // 4. Check if file exists (get SHA)
+            let sha = null;
+            try {
+                const res = await fetch(apiUrl, {
+                    headers: { 'Authorization': `token ${token}` }
+                });
+                if (res.ok) {
+                    const json = await res.json();
+                    sha = json.sha;
+                }
+            } catch (e) { /* ignore */ }
 
-    fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${accessToken}`,
-        },
-        body: form
-    })
-    .then(res => res.json())
-    .then(result => {
-        if (result.id) {
-            alert(`✅ File uploaded successfully!\nFile ID: ${result.id}\nView at: https://drive.google.com/file/d/${result.id}/view`);
-        } else {
-            alert('❌ Upload failed: ' + JSON.stringify(result));
+            // 5. Prepare commit payload
+            const payload = {
+                message: 'Update visiting cards data',
+                content: base64Content,
+                branch: 'main'  // change if your default branch is different
+            };
+            if (sha) payload.sha = sha;
+
+            // 6. Send PUT request
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    alert(`✅ File committed to GitHub!\n${result.content.html_url}`);
+                } else {
+                    const err = await response.json();
+                    alert('❌ Upload failed: ' + (err.message || 'Unknown error'));
+                }
+            } catch (err) {
+                alert('❌ Network error: ' + err.message);
+            }
         }
-    })
-    .catch(err => alert('Error: ' + err.message));
-}
-            // generate file and download
-            XLSX.writeFile(wb, 'visiting_cards.xlsx');
-        }
 
-        // ----- clear all cards -----
+        // ---- clear all cards ----
         function clearAllCards() {
             if (cards.length === 0) return;
             if (confirm('Delete all stored cards?')) {
@@ -706,49 +674,19 @@ function exportExcel() {
             }
         }
 
-        // ----- event binding -----
+        // ---- event binding ----
         addTagBtn.addEventListener('click', addTagFromInput);
         tagInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addTagFromInput(); } });
         clearTagsBtn.addEventListener('click', resetTags);
-
         clearFieldsBtn.addEventListener('click', clearFields);
-
-        storeBtn.addEventListener('click', function() {
-            storeCard();
-            // optionally clear front/back images after storing? Keep as UX: we keep them.
-            // but we can also reset image preview if user wants fresh start: 
-            // we don't reset automatically, but they can re-upload.
-        });
-
-        exportExcelBtn.addEventListener('click', exportExcel);
+        storeBtn.addEventListener('click', storeCard);
+        exportExcelBtn.addEventListener('click', exportToGitHub);
         clearAllBtn.addEventListener('click', clearAllCards);
-
-        // clear front/back previews if user wants (optional) - we don't bind auto.
 
         // initial render
         renderTags();
         renderTable();
         updateCounter();
-
-        // add some demo card for showcase (optional)
-        // uncomment for demo:
-        /*
-        cards.push({
-            id: nextId++,
-            name: 'Jane Smith',
-            company: 'TechStart',
-            email: 'jane@techstart.io',
-            phone: '+1 987 654 321',
-            title: 'CEO',
-            website: 'techstart.io',
-            address: '456 Innovation Dr.',
-            tags: ['startup', 'VIP'],
-            frontImg: null,
-            backImg: null,
-        });
-        renderTable();
-        updateCounter();
-        */
     })();
 </script>
 </body>
