@@ -628,26 +628,70 @@
         }
 
         // ----- export to Excel (XLSX) -----
-        function exportExcel() {
-            if (cards.length === 0) {
-                alert('No cards to export. Store at least one card.');
-                return;
-            }
-            const data = cards.map(c => ({
-                'Name': c.name,
-                'Company': c.company,
-                'Email': c.email,
-                'Phone': c.phone,
-                'Title': c.title,
-                'Website': c.website,
-                'Address': c.address,
-                'Tags': c.tags.join(', '),
-                'Front Image': c.frontImg ? 'yes' : 'no',
-                'Back Image': c.backImg ? 'yes' : 'no',
-            }));
-            const wb = XLSX.utils.book_new();
-            const ws = XLSX.utils.json_to_sheet(data);
-            XLSX.utils.book_append_sheet(wb, ws, 'Cards');
+        // Replace the exportExcel function with this:
+function exportExcel() {
+    if (cards.length === 0) {
+        alert('No cards to export. Store at least one card.');
+        return;
+    }
+
+    // 1. Prepare the data
+    const data = cards.map(c => ({
+        'Name': c.name,
+        'Company': c.company,
+        'Email': c.email,
+        'Phone': c.phone,
+        'Title': c.title,
+        'Website': c.website,
+        'Address': c.address,
+        'Tags': c.tags.join(', '),
+        'Front Image': c.frontImg ? 'yes' : 'no',
+        'Back Image': c.backImg ? 'yes' : 'no',
+    }));
+
+    // 2. Create Excel file as Blob
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(data);
+    XLSX.utils.book_append_sheet(wb, ws, 'Cards');
+    const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([wbout], { type: 'application/octet-stream' });
+
+    // 3. ---- GOOGLE DRIVE UPLOAD ----
+    // 🔴 REPLACE THIS WITH YOUR FOLDER ID
+    const FOLDER_ID = '1ABCdefGHIjklMNOpqrsTUVwxyz'; // <-- PASTE YOUR FOLDER ID HERE
+
+    // You need a valid OAuth token. This is a simplified example.
+    // In production, use gapi.client or OAuth2 flow.
+    const accessToken = prompt('Please enter your Google Drive Access Token (see instructions below):');
+    if (!accessToken) return;
+
+    const metadata = {
+        name: 'visiting_cards.xlsx',
+        parents: [FOLDER_ID],
+        mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    };
+
+    const form = new FormData();
+    form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
+    form.append('file', blob);
+
+    fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+        },
+        body: form
+    })
+    .then(res => res.json())
+    .then(result => {
+        if (result.id) {
+            alert(`✅ File uploaded successfully!\nFile ID: ${result.id}\nView at: https://drive.google.com/file/d/${result.id}/view`);
+        } else {
+            alert('❌ Upload failed: ' + JSON.stringify(result));
+        }
+    })
+    .catch(err => alert('Error: ' + err.message));
+}
             // generate file and download
             XLSX.writeFile(wb, 'visiting_cards.xlsx');
         }
