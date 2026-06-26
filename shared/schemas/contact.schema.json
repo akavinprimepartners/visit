@@ -1,0 +1,98 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Contact",
+  "description": "Contact schema for AKAVIN OS",
+  "type": "object",
+  "properties": {
+    "_id": {
+      "type": "string",
+      "description": "Unique identifier"
+    },
+    "firstName": {
+      "type": "string",
+      "description": "First name"
+    },
+    "lastName": {
+      "type": "string",
+      "description": "Last name"
+    },
+    "company": {
+      "type": "string",
+      "description": "Company name"
+    },
+    "designation": {
+      "type": "string",
+      "description": "Job title"
+    },
+    "phones": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "number": {"type": "string"},
+          "type": {"type": "string", "enum": ["mobile", "work", "home"]},
+          "primary": {"type": "boolean"}
+        }
+      }
+    },
+    "emails": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "email": {"type": "string", "format": "email"},
+          "type": {"type": "string", "enum": ["work", "personal"]},
+          "primary": {"type": "boolean"}
+        }
+      }
+    },
+    "addresses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "street": {"type": "string"},
+          "city": {"type": "string"},
+          "state": {"type": "string"},
+          "country": {"type": "string"},
+          "postalCode": {"type": "string"},
+          "type": {"type": "string", "enum": ["work", "home"]}
+        }
+      }
+    },
+    "social": {
+      "type": "object",
+      "properties": {
+        "linkedin": {"type": "string"},
+        "twitter": {"type": "string"},
+        "facebook": {"type": "string"},
+        "instagram": {"type": "string"},
+        "website": {"type": "string"}
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Categories/tags"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes"
+    },
+    "cardImage": {
+      "type": "string",
+      "description": "Path to card image"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "source": {"type": "string"},
+        "scannedAt": {"type": "string", "format": "date-time"},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 100}
+      }
+    },
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"}
+  },
+  "required": ["firstName", "created_at", "updated_at"]
+}
