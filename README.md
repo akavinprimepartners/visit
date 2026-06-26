@@ -1,1 +1,115 @@
 # visit
+
+akavin-os/
+├── 📁 docs/                          # Complete documentation
+│   ├── 000_READ_FIRST.md
+│   ├── 001_Project_Vision.md
+│   ├── 002_System_Architecture.md
+│   ├── 003_Module_Map.md
+│   ├── 004_Folder_Structure.md
+│   ├── 005_Coding_Standards.md
+│   ├── 006_JSON_Schemas.md
+│   └── 007_API_Specification.md
+├── 📁 docker/                        # Docker configurations
+│   ├── docker-compose.yml
+│   ├── docker-compose.prod.yml       # NEW: Production config
+│   ├── Dockerfile.api
+│   ├── Dockerfile.web
+│   └── .env.example
+├── 📁 backend/                       # FastAPI Backend
+│   ├── 📁 app/
+│   │   ├── __init__.py
+│   │   ├── main.py
+│   │   ├── 📁 api/
+│   │   │   ├── __init__.py
+│   │   │   └── 📁 v1/
+│   │   │       ├── __init__.py
+│   │   │       └── 📁 endpoints/
+│   │   │           ├── auth.py
+│   │   │           ├── users.py
+│   │   │           ├── cards.py
+│   │   │           ├── ai.py
+│   │   │           └── knowledge.py
+│   │   ├── 📁 core/
+│   │   │   ├── __init__.py
+│   │   │   ├── config.py
+│   │   │   ├── logging.py
+│   │   │   ├── exceptions.py
+│   │   │   ├── database.py
+│   │   │   ├── security.py
+│   │   │   ├── dependencies.py
+│   │   │   └── ai_config.py
+│   │   ├── 📁 models/
+│   │   │   ├── __init__.py
+│   │   │   ├── user.py
+│   │   │   ├── card.py
+│   │   │   ├── entity.py
+│   │   │   └── knowledge.py
+│   │   ├── 📁 schemas/
+│   │   │   ├── __init__.py
+│   │   │   ├── auth.py
+│   │   │   ├── user.py
+│   │   │   ├── card.py
+│   │   │   ├── ai.py
+│   │   │   └── knowledge.py
+│   │   ├── 📁 services/
+│   │   │   ├── __init__.py
+│   │   │   ├── auth_service.py
+│   │   │   ├── user_service.py
+│   │   │   ├── ocr_service.py
+│   │   │   ├── image_service.py
+│   │   │   ├── ai_service.py
+│   │   │   ├── nlp_service.py
+│   │   │   ├── entity_service.py
+│   │   │   └── learning_service.py
+│   │   └── 📁 utils/
+│   │       └── __init__.py
+│   ├── requirements.txt
+│   ├── pyproject.toml
+│   └── .env.production
+├── 📁 frontend/                      # Next.js Frontend
+│   ├── 📁 app/
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   ├── 📁 (auth)/
+│   │   │   ├── login/page.tsx
+│   │   │   └── register/page.tsx
+│   │   ├── 📁 dashboard/
+│   │   │   └── page.tsx
+│   │   └── 📁 api/
+│   │       └── auth/[...nextauth]/route.ts
+│   ├── 📁 components/
+│   │   ├── ui/
+│   │   │   ├── button.tsx
+│   │   │   ├── input.tsx
+│   │   │   └── card.tsx
+│   │   └── layout/
+│   │       ├── header.tsx
+│   │       └── sidebar.tsx
+│   ├── 📁 lib/
+│   │   ├── api-client.ts
+│   │   └── auth.ts
+│   ├── 📁 styles/
+│   │   └── globals.css
+│   ├── package.json
+│   ├── next.config.js
+│   ├── tsconfig.json
+│   └── tailwind.config.js
+├── 📁 shared/                        # Shared resources
+│   ├── 📁 schemas/
+│   │   ├── contact.schema.json
+│   │   └── company.schema.json
+│   └── 📁 types/
+│       └── index.ts
+├── 📁 scripts/                       # Utility scripts
+│   ├── setup.sh
+│   ├── dev.sh
+│   └── deploy.sh                     # NEW: Deployment script
+├── 📁 nginx/                         # NEW: Nginx configuration
+│   └── nginx.conf
+├── 📁 deploy/                        # NEW: Deployment files
+│   ├── install.sh
+│   └── .env.production
+├── 📄 README.md
+├── 📄 LICENSE
+└── 📄 .gitignore
