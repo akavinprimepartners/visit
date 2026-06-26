@@ -14,6 +14,7 @@ from app.core.config import settings
 from app.core.logging import setup_logging
 from app.core.exceptions import AppException
 from app.core.database import Database
+from app.api.v1.endpoints import auth, cards, users
 
 # Setup logging
 logger = setup_logging()
@@ -101,6 +102,17 @@ async def system_info():
         ]
     }
 
+# Add user endpoint
+@router.get("/api/v1/users", response_model=List[User])
+async def get_users(
+    skip: int = 0,
+    limit: int = 100,
+    current_user: User = Depends(get_current_superuser)
+):
+    """Get all users (admin only)"""
+    users_data = db.find("users", {})
+    return users_data[skip:skip + limit]
+
 # Import routers
 # from app.api.v1.endpoints import cards, contacts, companies, products, search
 
@@ -109,6 +121,11 @@ async def system_info():
 # app.include_router(companies.router, prefix="/api/v1/companies", tags=["Companies"])
 # app.include_router(products.router, prefix="/api/v1/products", tags=["Products"])
 # app.include_router(search.router, prefix="/api/v1/search", tags=["Search"])
+
+# Add routers
+app.include_router(auth.router, prefix="/api/v1", tags=["Authentication"])
+app.include_router(cards.router, prefix="/api/v1", tags=["Business Cards"])
+app.include_router(users.router, prefix="/api/v1", tags=["Users"])
 
 if __name__ == "__main__":
     import uvicorn
