@@ -152,3 +152,16 @@ backend/app/
 └── core/
     ├── security.py      ← NEW
     └── dependencies.py  ← NEW
+OCR Engine:
+backend/app/
+├── services/
+│   ├── ocr_service.py     ← NEW
+│   └── image_service.py   ← NEW
+├── api/v1/endpoints/
+│   └── cards.py           ← NEW
+├── models/
+│   └── card.py            ← NEW
+├── schemas/
+│   └── card.py            ← NEW
+└── core/
+    └── image_processor.py ← NEW
