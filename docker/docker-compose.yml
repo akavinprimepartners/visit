@@ -1,19 +1,25 @@
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres:15
-    container_name: akavin-postgres
-    environment:
-      POSTGRES_USER: akavin
-      POSTGRES_PASSWORD: akavin123
-      POSTGRES_DB: akavin
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - akavin-network
+  backend:
+    postgres:
+      image: postgres:15
+      container_name: akavin-postgres
+      environment:
+        POSTGRES_USER: akavin
+        POSTGRES_PASSWORD: akavin123
+        POSTGRES_DB: akavin
+      ports:
+        - "5432:5432"
+      volumes:
+        - postgres_data:/var/lib/postgresql/data
+      networks:
+        - akavin-network
+  volumes:
+    - ../backend:/app
+    - ../shared:/app/shared
+    - ./data:/app/data
+    - ./uploads:/app/uploads  # NEW
 
   redis:
     image: redis:7
