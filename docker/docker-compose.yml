@@ -1,0 +1,97 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: akavin-postgres
+    environment:
+      POSTGRES_USER: akavin
+      POSTGRES_PASSWORD: akavin123
+      POSTGRES_DB: akavin
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - akavin-network
+
+  redis:
+    image: redis:7
+    container_name: akavin-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - akavin-network
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: akavin-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    networks:
+      - akavin-network
+
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.api
+    container_name: akavin-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://akavin:akavin123@postgres:5432/akavin
+      - REDIS_URL=redis://redis:6379
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    volumes:
+      - ../backend:/app
+      - ../shared:/app/shared
+      - ./data:/app/data
+    depends_on:
+      - postgres
+      - redis
+      - elasticsearch
+    networks:
+      - akavin-network
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.web
+    container_name: akavin-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:8000
+    volumes:
+      - ../frontend:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - backend
+    networks:
+      - akavin-network
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: akavin-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - akavin-network
+
+networks:
+  akavin-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  es_data:
+  ollama_data:
